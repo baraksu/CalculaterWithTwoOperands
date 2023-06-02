@@ -52,7 +52,11 @@ jmp start
              
         mov AH,01h      ;read a character
         int 21h
-        sub al,30h             
+        sub al,30h
+        cmp al,0
+        jl Illegal
+        cmp al,9
+        jg Illegal             
              
         ret ;return to the start
     endp GetNumber
@@ -125,6 +129,8 @@ Illegal:
         divi:
                 mov al,[firstNum]
                 mov bl,[secondNum]
+                cmp bl,0
+                je Illegal
                 div bl
                 add al,30h
                 add ah,30h
